@@ -310,6 +310,40 @@
             font-weight: bold;
         }
 
+        /* 移动端导航置顶 */
+        .mobile-nav-top {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #4f46e5;
+        }
+
+        /* 返回导航按钮 */
+        .back-to-nav {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-to-nav:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+        }
+
         /* 移动端优化样式 */
         @media (max-width: 768px) {
             .container {
@@ -340,6 +374,12 @@
                 padding: 15px;
                 border-right: none;
                 border-bottom: 1px solid #e2e8f0;
+                /* 重要：移动端导航置顶 */
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                background: rgba(248, 250, 252, 0.95);
+                backdrop-filter: blur(10px);
             }
             
             .nav-menu {
@@ -378,6 +418,8 @@
 
             .content {
                 padding: 20px 15px;
+                /* 移除移动端内容区域的滚动，让页面自然滚动 */
+                overflow-y: visible;
             }
 
             .section h2 {
@@ -466,6 +508,11 @@
             .step-item p {
                 font-size: 14px;
                 line-height: 1.5;
+            }
+
+            /* 移动端显示返回导航按钮 */
+            .back-to-nav {
+                display: block;
             }
 
             /* 移动端列表优化 */
@@ -629,8 +676,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </section>
 
                 <section id="drawing" class="section">
@@ -982,6 +1027,11 @@
         </div>
     </div>
 
+    <!-- 返回导航按钮（仅移动端显示） -->
+    <button class="back-to-nav" onclick="scrollToNav()" title="返回导航">
+        ⬆️
+    </button>
+
     <script>
         // 导航功能
         const navLinks = document.querySelectorAll('.nav-link');
@@ -1006,22 +1056,30 @@
                 link.classList.add('active');
                 const targetId = href.substring(1);
                 document.getElementById(targetId).classList.add('active');
-            });
-        });
 
-        // 平滑滚动效果
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                // 移动端点击导航后，将选中的导航项滚动到可视区域中心
+                if (window.innerWidth <= 768) {
+                    setTimeout(() => {
+                        link.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'nearest',
+                            inline: 'center'
+                        });
+                    }, 100);
                 }
             });
         });
+
+        // 返回导航功能（移动端）
+        function scrollToNav() {
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar) {
+                sidebar.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
 
         // 添加一些交互效果
         document.querySelectorAll('.price-card, .service-card').forEach(card => {
@@ -1050,22 +1108,38 @@
             });
         });
 
-        // 移动端导航滚动优化
-        const navMenu = document.querySelector('.nav-menu');
-        if (navMenu) {
-            navMenu.addEventListener('click', (e) => {
-                if (e.target.classList.contains('nav-link')) {
-                    // 滚动到激活的导航项
-                    setTimeout(() => {
-                        e.target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'nearest',
-                            inline: 'center'
-                        });
-                    }, 100);
+        // 检测滚动位置，显示/隐藏返回导航按钮
+        let ticking = false;
+        function updateBackButton() {
+            const backButton = document.querySelector('.back-to-nav');
+            const sidebar = document.querySelector('.sidebar');
+            
+            if (window.innerWidth <= 768 && backButton && sidebar) {
+                const sidebarRect = sidebar.getBoundingClientRect();
+                // 当导航栏不在视口顶部时显示返回按钮
+                if (sidebarRect.bottom < 0) {
+                    backButton.style.opacity = '1';
+                    backButton.style.pointerEvents = 'auto';
+                } else {
+                    backButton.style.opacity = '0.3';
+                    backButton.style.pointerEvents = 'none';
                 }
-            });
+            }
+            ticking = false;
         }
+
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateBackButton);
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', requestTick);
+        window.addEventListener('resize', updateBackButton);
+        
+        // 初始化
+        updateBackButton();
     </script>
 </body>
 </html>
