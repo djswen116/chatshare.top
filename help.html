@@ -570,12 +570,13 @@
                 <ul class="nav-menu">
                     <li><a href="#intro" class="nav-link active">服务介绍</a></li>
                     <li><a href="#about" class="nav-link">关于我们</a></li>
-                    <li><a href="#contact" class="nav-link">联系方式</a></li>
                     <li><a href="#website" class="nav-link">网站地址</a></li>
                     <li><a href="#purchase" class="nav-link">购买方式</a></li>
                     <li><a href="#login" class="nav-link">登录使用</a></li>
                     <li><a href="#renewal" class="nav-link">续费说明</a></li>
+                    <li><a href="#contact" class="nav-link">联系方式</a></li>
                     <li><a href="#faq" class="nav-link">常见问题</a></li>
+                    <li><a href="https://acn0d26eyhcl.feishu.cn/wiki/QAX8wquHtiok8tkxBFycEIp1nBg" class="nav-link" target="_blank">文书文档</a></li>
                 </ul>
             </nav>
 
@@ -681,22 +682,6 @@
                             <li>⚡ 不用担心封号问题</li>
                             <li>🎪 官网账号有3小时80条消息的限制，周卡月卡无限制</li>
                         </ul>
-                    </div>
-                </section>
-
-                <section id="contact" class="section">
-                    <h2>📞 联系方式</h2>
-                    
-                    <div class="contact-info">
-                        <h3>🔥 防失联联系方式</h3>
-                        <p><strong>微信：lisuwen116</strong></p>
-                        <p>请务必添加防失联，通知和更新发朋友圈，有问题也可直接私聊！</p>
-                    </div>
-
-                    <div class="warning-box">
-                        <h3>📢 通知群</h3>
-                        <p>建议扫码加入通知群（禁言群！有其他群的不要重复进！）</p>
-                        <p>群主微信：文文，有问题私下问我，群内禁言！</p>
                     </div>
                 </section>
 
@@ -840,6 +825,22 @@
                     </div>
                 </section>
 
+                <section id="contact" class="section">
+                    <h2>📞 联系方式</h2>
+                    
+                    <div class="contact-info">
+                        <h3>🔥 防失联联系方式</h3>
+                        <p><strong>微信：lisuwen116</strong></p>
+                        <p>请务必添加防失联，通知和更新发朋友圈，有问题也可直接私聊！</p>
+                    </div>
+
+                    <div class="warning-box">
+                        <h3>📢 通知群</h3>
+                        <p>建议扫码加入通知群（禁言群！有其他群的不要重复进！）</p>
+                        <p>群主微信：文文，有问题私下问我，群内禁言！</p>
+                    </div>
+                </section>
+
                 <section id="faq" class="section">
                     <h2>❓ 常见问题</h2>
                     
@@ -904,6 +905,13 @@
 
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                
+                // 如果是外部链接，不阻止默认行为
+                if (href.startsWith('http')) {
+                    return;
+                }
+                
                 e.preventDefault();
                 
                 // 移除所有active类
@@ -912,7 +920,7 @@
                 
                 // 添加active类到当前选中的
                 link.classList.add('active');
-                const targetId = link.getAttribute('href').substring(1);
+                const targetId = href.substring(1);
                 document.getElementById(targetId).classList.add('active');
             });
         });
