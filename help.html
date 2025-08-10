@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-ale=1.0">
     <title>Chatshare镜像站帮助文档</title>
     <style>
         * {
@@ -340,7 +340,7 @@
         }
 
         .back-to-nav:hover {
-            transform: scale(1.1);
+            transform: ale(1.1);
             box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
         }
 
@@ -387,19 +387,19 @@
                 overflow-x: auto;
                 gap: 8px;
                 padding-bottom: 10px;
-                scrollbar-width: thin;
+                rollbar-width: thin;
             }
 
-            .nav-menu::-webkit-scrollbar {
+            .nav-menu::-webkit-rollbar {
                 height: 4px;
             }
 
-            .nav-menu::-webkit-scrollbar-track {
+            .nav-menu::-webkit-rollbar-track {
                 background: #f1f1f1;
                 border-radius: 4px;
             }
 
-            .nav-menu::-webkit-scrollbar-thumb {
+            .nav-menu::-webkit-rollbar-thumb {
                 background: #888;
                 border-radius: 4px;
             }
@@ -798,7 +798,7 @@
                     <div class="highlight-box">
                         <h3>🛒 购买链接</h3>
                         <div class="code-block">
-                            https://zc.i6ls.com//links/30EFC033
+                            https://sc.i6ls.com//links/30EFC033
                         </div>
                         <p>⚠️ 电脑是无法完成付款的！微信打开或手机扫码支付</p>
                         <p>⚠️ 如果购买链接打不开或者付款不了，请微信找我！</p>
@@ -883,7 +883,7 @@
                     <div class="step-list">
                         <div class="step-item">
                             <h4>购买激活码</h4>
-                            <p>前往购买链接：<code>https://zc.i6ls.com//links/30EFC033</code></p>
+                            <p>前往购买链接：<code>https://.i6ls.com//links/30EFC033</code></p>
                         </div>
 
                         <div class="step-item">
@@ -1028,11 +1028,11 @@
     </div>
 
     <!-- 返回导航按钮（仅移动端显示） -->
-    <button class="back-to-nav" onclick="scrollToNav()" title="返回导航">
+    <button class="back-to-nav" onclick="rollToNav()" title="返回导航">
         ⬆️
     </button>
 
-    <script>
+    <ript>
         // 导航功能
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('.section');
@@ -1060,7 +1060,7 @@
                 // 移动端点击导航后，将选中的导航项滚动到可视区域中心
                 if (window.innerWidth <= 768) {
                     setTimeout(() => {
-                        link.scrollIntoView({
+                        link.rollIntoView({
                             behavior: 'smooth',
                             block: 'nearest',
                             inline: 'center'
@@ -1071,10 +1071,10 @@
         });
 
         // 返回导航功能（移动端）
-        function scrollToNav() {
+        function rollToNav() {
             const sidebar = document.querySelector('.sidebar');
             if (sidebar) {
-                sidebar.scrollIntoView({
+                sidebar.rollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
@@ -1084,11 +1084,11 @@
         // 添加一些交互效果
         document.querySelectorAll('.price-card, .service-card').forEach(card => {
             card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) scale(1.05)';
+                this.style.transform = 'translateY(-10px) ale(1.05)';
             });
             
             card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
+                this.style.transform = 'translateY(0) ale(1)';
             });
         });
 
@@ -1135,11 +1135,11 @@
             }
         }
 
-        window.addEventListener('scroll', requestTick);
+        window.addEventListener('roll', requestTick);
         window.addEventListener('resize', updateBackButton);
         
         // 初始化
         updateBackButton();
-    </script>
+    </ript>
 </body>
 </html>
