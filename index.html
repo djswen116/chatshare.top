@@ -1,568 +1,409 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <meta name="baidu-site-verification" content="codeva-2LBhq7NYxt" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> ChatShare多模态集合AI - ChatShare镜像站</title>
+    <title>ChatShare AI聚合站 - 全球顶尖模型集成</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1D1D1F, #2C2C2E, #1D1D1F);
-            color: #F2F2F7;
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            color: #1e293b;
+            /* 动态弥散背n景 */
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,0) 0, hsla(253,16%,7%,0) 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,0) 0, hsla(225,39%,30%,0) 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,0) 0, hsla(339,49%,30%,0) 50%);
+            overflow-x: hidden;
+            /* 确保小屏幕也能完整显示 */
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
         }
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-            background: rgba(28, 28, 30, 0.8);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            margin-top: 20px;
-            text-align: center;
+        /* 极光背景动画层 */
+        .aurora-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(235, 230, 255, 0.8), transparent 25%), 
+                radial-gradient(circle at 85% 30%, rgba(210, 240, 255, 0.8), transparent 25%);
+            filter: blur(80px);
+            animation: breathe 10s infinite ease-in-out;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        /* 隐藏滚动条 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 高级毛玻璃卡片通用样式 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 
+                0 4px 6px -1px rgba(0, 0, 0, 0.02), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.02),
+                inset 0 0 20px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        /* 卡片悬停特效 */
+        .glass-card-hover:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 
+                0 15px 30px -5px rgba(99, 102, 241, 0.15), 
+                0 8px 10px -5px rgba(99, 102, 241, 0.05);
+            border-color: rgba(255, 255, 255, 0.9);
+            z-index: 10;
         }
 
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #007AFF, #5AC8FA);
+        /* 文字渐变 */
+        .text-gradient-blue {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 700;
         }
 
-        h2 {
-            font-size: 1.5rem;
-            font-weight: 500;
-            margin-bottom: 15px;
-            color: #8E8E93;
+        /* 左侧面板特殊背景 */
+        .left-panel-glass {
+            background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(248,250,252,0.7) 100%);
+        }
+    
+
+        /* ===== 显示版本A：紧凑商务版，仅优化展示，不改文字 ===== */
+        :root { --card-radius: 22px; }
+        nav .hidden.md\:flex { gap: 1.15rem !important; }
+        nav a { white-space: nowrap; }
+        .relative.pt-8.pb-6 { padding-top: 1.6rem !important; padding-bottom: 1.2rem !important; }
+        .relative.pt-8.pb-6 h1 { letter-spacing: -0.05em; line-height: 1.08; }
+        main .grid { gap: 1rem !important; }
+        .glass-card { border-radius: var(--card-radius) !important; }
+        .lg\:col-span-4 > a { min-height: 118px; }
+        .lg\:col-span-4 h3 { line-height: 1.22; }
+        .lg\:col-span-4 p { line-height: 1.45; }
+        .left-panel-glass { min-height: 100%; }
+        footer { padding-top: .75rem !important; padding-bottom: .75rem !important; }
+        @media (max-width: 768px) {
+            .relative.pt-8.pb-6 { padding-top: 1.2rem !important; }
+            .relative.pt-8.pb-6 h1 { font-size: 2rem !important; }
+            .lg\:col-span-4 > a { min-height: 104px; }
+            .lg\:col-span-4 { gap: .7rem !important; }
         }
 
-        .ai-platforms {
-            font-size: 0.9rem;
-            color: #8E8E93;
-            margin-bottom: 15px;
-            font-weight: 400;
-        }
-
-        .wechat-info {
-            font-size: 1.1rem;
-            font-weight: 400;
-            margin-bottom: 30px;
-            color: #007AFF;
-            background: rgba(0, 122, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 122, 255, 0.2);
-            display: inline-block;
-        }
-
-        .service-info {
-            font-size: 1rem;
-            color: #8E8E93;
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .pricing {
-            color: #FF9500;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .intro {
-            background: rgba(0, 122, 255, 0.1);
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 30px;
-            text-align: center;
-            border: 1px solid rgba(0, 122, 255, 0.2);
-        }
-
-        .intro p {
-            margin-bottom: 15px;
-            line-height: 1.6;
-            color: #F2F2F7;
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px 0;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            font-weight: 600;
-            min-width: 180px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            word-wrap: break-word;
-            white-space: normal;
-            line-height: 1.3;
-        }
-
-        .btn-primary {
-            background: #007AFF;
-        }
-
-        .btn-primary:hover {
-            background: #0056CC;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
-        }
-
-        .btn-secondary {
-            background: #34C759;
-        }
-
-        .btn-secondary:hover {
-            background: #248A3D;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(52, 199, 89, 0.4);
-        }
-
-        .btn-tertiary {
-            background: #5AC8FA;
-        }
-
-        .btn-tertiary:hover {
-            background: #32ADE6;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(90, 200, 250, 0.4);
-        }
-
-        .btn-quaternary {
-            background: #6C6C70;
-            font-size: 0.95rem;
-            font-weight: 500;
-            opacity: 0.8;
-        }
-
-        .btn-quaternary:hover {
-            background: #8E8E93;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(108, 108, 112, 0.3);
-            opacity: 1;
-        }
-
-        .btn:active {
-            transform: translateY(1px);
-        }
-
-        .btn:disabled {
-            background: #48484A;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .spinner-container {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-
-        .spinner {
-            border: 8px solid rgba(0, 122, 255, 0.1);
-            border-top: 8px solid #007AFF;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-            display: none;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        #result {
-            margin-top: 20px;
-            font-size: 1.1rem;
-            color: #F2F2F7;
-            width: 100%;
-            display: none;
-        }
-
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 20px;
-            margin: 8px 0;
-            background: rgba(0, 122, 255, 0.05);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0, 122, 255, 0.1);
-        }
-
-        .result-item:hover {
-            background: rgba(0, 122, 255, 0.1);
-            transform: translateX(5px);
-        }
-
-        .node-name {
-            font-weight: 500;
-        }
-
-        .time-value {
-            font-weight: 600;
-            color: #007AFF;
-        }
-
-        .timeout {
-            color: #FF3B30;
-        }
-
-        .best-node {
-            background: rgba(0, 122, 255, 0.2);
-            border-left: 4px solid #007AFF;
-        }
-
-        .redirect-message {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0, 122, 255, 0.2);
-            border-radius: 12px;
-            display: none;
-            animation: pulse 2s infinite;
-            border: 1px solid rgba(0, 122, 255, 0.3);
-        }
-
-        @keyframes pulse {
-            0% { background: rgba(0, 122, 255, 0.2); }
-            50% { background: rgba(0, 122, 255, 0.3); }
-            100% { background: rgba(0, 122, 255, 0.2); }
-        }
-
-        .status-bar {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            padding: 10px;
-            background: rgba(28, 28, 30, 0.8);
-            border-radius: 12px;
-            font-size: 0.9rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        footer {
-            margin-top: 30px;
-            text-align: center;
-            color: #8E8E93;
-            font-size: 0.9rem;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .progress-container {
-            width: 100%;
-            background-color: rgba(0, 122, 255, 0.1);
-            border-radius: 8px;
-            margin: 20px 0;
-            overflow: hidden;
-            display: none;
-        }
-
-        .progress-bar {
-            height: 10px;
-            background: linear-gradient(to right, #007AFF, #5AC8FA);
-            width: 0%;
-            transition: width 0.4s ease;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px 15px;
-                border-radius: 16px;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            h2 {
-                font-size: 1.2rem;
-            }
-
-            .wechat-info {
-                font-size: 1rem;
-                padding: 8px 15px;
-            }
-
-            .service-info {
-                font-size: 0.9rem;
-            }
-
-            .ai-platforms {
-                font-size: 0.8rem;
-            }
-            
-            .btn {
-                padding: 12px 20px;
-                font-size: 0.95rem;
-                min-width: 140px;
-                border-radius: 10px;
-            }
-            
-            .btn-group {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .result-item {
-                font-size: 1rem;
-                padding: 10px 15px;
-                border-radius: 10px;
-            }
-            
-            .modal-content {
-                padding: 20px 15px;
-                width: 95%;
-                border-radius: 16px;
-            }
-        }
     </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>ChatShare</h1>
-            <h2>多模态AI集合镜像站</h2>
-            <div class="ai-platforms">一站式搞定Gpt,Claude,Gemini,Grok,Deepseek，Mj等</div>
-            <div class="wechat-info">客服微信：13079809</div>
-            <div class="service-info">
-              已稳定运营2年+，性价比逆天！<br>
-                <span class="pricing">镜像天卡5元 | 周卡25元 | 月卡58元</span>
-                 <span class="pricing">官网自助代充180元一个月包售后</span>
-            </div>
-        </header>
-        
-        <div class="intro">
-            <p>点击按钮进入系统(别微信点开)，系统将自动检测和选择最快的站点!</p>
-            <p>本站有4个备用分站，使用过程中卡顿或报错，可从此总站中再重点进入系统！</p>
-        </div>
-        
-        <div class="btn-group">
-       <a href="https://chatshare.biz/" class="btn btn-tertiary">进入镜像系统（别微信点开）</a>
-            <a href="/help" class="btn btn-secondary">镜像使用帮助</a>
-            <a href="https://fe.dtyuedan.cn/shop/chatshare.top" class="btn btn-tertiary">镜像购买入口</a>
-            <a href="http://aivip.biz" target="_blank" class="btn btn-quaternary">官网Gpt Plus会员代充</a>
-        </div>
-        
-        <div class="progress-container" id="progressContainer">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-        
-        <div class="spinner-container">
-            <div class="spinner" id="spinner"></div>
-        </div>
-        
-        <div id="result">
-            <div class="result-item">
-                <span class="node-name">电信高速节点1:</span>
-                <span class="time-value" id="result1">测试中...</span>
-            </div>
-            <div class="result-item">
-                <span class="node-name">电信高速节点2:</span>
-                <span class="time-value" id="result2">测试中...</span>
-            </div>
-            <div class="result-item">
-                <span class="node-name">香港高速节点3:</span>
-                <span class="time-value" id="result3">测试中...</span>
-            </div>
-            <div class="result-item">
-                <span class="node-name">日本高速节点5:</span>
-                <span class="time-value" id="result4">测试中...</span>
-            </div>
-            <div class="result-item">
-                <span class="node-name">美国高防节点6:</span>
-                <span class="time-value" id="result5">测试中...</span>
+<body class="selection:bg-indigo-100 selection:text-indigo-700">
+
+    <!-- 极光背景层 -->
+    <div class="aurora-bg"></div>
+
+<nav class="sticky top-0 z-50 border-b border-white/40 bg-white/70 backdrop-blur-md supports-[backdrop-filter]:bg-white/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-14">
+                
+                <div class="flex items-center gap-3">
+                    <div class="relative w-9 h-9 group cursor-pointer">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-60 transition duration-300"></div>
+                        <div class="relative w-full h-full bg-gradient-to-br from-indigo-500 via-blue-600 to-cyan-500 rounded-xl flex items-center justify-center shadow-inner border border-white/10">
+                            <div class="absolute inset-0 bg-white/10 rounded-xl pointer-events-none"></div>
+                            <svg class="w-5 h-5 text-white drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <span class="font-bold text-lg tracking-tight text-slate-800">ChatShare<span class="text-slate-500 font-normal text-sm ml-2">AI聚合站</span></span>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="https://node1.chatshare.biz/" target="_blank" class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors duration-200">系统登录入口</a>
+                    <a href="https://fe.dtyuedan.cn/shop/chatshare.top" target="_blank" class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors duration-200">Chatshare激活码购买</a>
+                    <a href="https://my.feishu.cn/wiki/GFidwIVkriPWDukqW5Mcgd7Untr?from=from_copylink" target="_blank" class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors duration-200">系统使用操作</a>
+                    <a href="javascript:void(0);" onclick="showContactToast(event)" class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors duration-200">联系客服</a>
+                    <a href="javascript:void(0);" onclick="showRechargeToast(event)" class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors duration-200">GPT等官网代充（非镜像！需自备网络！）</a>
+                </div>
+
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-btn" class="text-blue-600 hover:text-blue-800 focus:outline-none p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+                
             </div>
         </div>
-        
-        <div class="redirect-message" id="redirectMessage">
-            已找到最快节点，即将自动跳转...
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-b border-blue-100 absolute w-full shadow-lg transition-all duration-300 origin-top">
+            <div class="px-4 pt-2 pb-4 space-y-2 flex flex-col">
+                <a href="https://node1.chatshare.biz/" target="_blank" class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-blue-600 hover:bg-blue-50 transition-colors">系统登录入口</a>
+                <a href="https://fe.dtyuedan.cn/shop/chatshare.top" target="_blank" class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-blue-600 hover:bg-blue-50 transition-colors">Chatshare激活码购买</a>
+                <a href="https://my.feishu.cn/wiki/GFidwIVkriPWDukqW5Mcgd7Untr?from=from_copylink" target="_blank" class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-blue-600 hover:bg-blue-50 transition-colors">系统使用操作</a>
+                <a href="javascript:void(0);" onclick="showContactToast(event)" class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-blue-600 hover:bg-blue-50 transition-colors">联系客服</a>
+                <a href="javascript:void(0);" onclick="showRechargeToast(event)" class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-blue-600 hover:bg-blue-50 transition-colors">GPT等官网代充（非镜像！需自备网络！）</a>
+            </div>
         </div>
+    </nav>
+    
+
+    <!-- Hero Section (大幅减少上下间距以适配单屏显示) -->
+    <div class="relative pt-8 pb-6 text-center px-4"> <!-- pt-16->pt-8, pb-12->pb-6 -->
+        <h1 class="relative z-10 text-3xl md:text-5xl font-extrabold mb-4 tracking-tight drop-shadow-sm"> <!-- text-4xl->3xl, mb-6->mb-4 -->
+            <span class="text-slate-800">让全世界顶级AI大模型</span><br class="md:hidden">
+            <span class="text-gradient-blue">为您打工</span>
+        </h1>
         
-        <div class="status-bar">
-            <span>状态: <span id="statusText">等待测试</span></span>
-            <span>已测试: <span id="testedCount">0</span>/5</span>
+        <div class="relative z-10 flex justify-center items-center gap-3 mb-6"> <!-- mb-10 -> mb-6 -->
+            <span class="bg-indigo-600 text-white shadow-md shadow-indigo-500/30 text-xs px-2.5 py-1 rounded-md font-medium tracking-wide">免梯直达</span>
+            <span class="text-slate-500 text-sm md:text-base font-medium">集成 ChatGPT, Claude, Gemini, Grok, Banana , Sora等最强模型，直连官网，同步更新，季卡日均低至1.5元起！</span>
         </div>
-        
-        <footer>
-            <p>ChatShare 多模态集合AI工具 &客服微信：13079809</p>
-        </footer>
+
+        <div class="relative z-10 max-w-6xl mx-auto overflow-x-auto no-scrollbar flex gap-3 px-4 pb-2 justify-start md:justify-center">
+            <!-- 胶囊样式 -->
+            <div class="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-white/60 border border-white/60 backdrop-blur-sm text-slate-600 font-semibold cursor-default text-xs md:text-sm shadow-sm hover:bg-white hover:shadow-md transition-all">
+                <!-- ChatGPT Logo (OpenAI Standard) -->
+                 <svg class="w-4 h-4 text-black" viewBox="0 0 41 41" fill="currentColor">
+                    <path d="M37.5324 16.8707C37.9808 15.5241 38.1363 14.0974 37.9886 12.6859C37.8409 11.2744 37.3934 9.91076 36.676 8.68622C35.6126 6.83404 33.9882 5.3676 32.0373 4.4985C30.0864 3.62941 27.9098 3.40259 25.8215 3.85078C24.8796 2.7893 23.7219 1.94125 22.4257 1.36341C21.1295 0.785575 19.7249 0.491269 18.3058 0.500197C16.1708 0.495044 14.0893 1.16803 12.3614 2.42214C10.6335 3.67624 9.34853 5.44666 8.6917 7.47815C7.30085 7.76286 5.98686 8.3414 4.8377 9.17505C3.68854 10.0087 2.73073 11.0782 2.02839 12.312C0.956464 14.1591 0.498905 16.2988 0.721698 18.4228C0.944492 20.5467 1.83612 22.5449 3.268 24.1293C2.81966 25.4759 2.66413 26.9026 2.81182 28.3141C2.95951 29.7256 3.40701 31.0892 4.12437 32.3138C5.18791 34.1659 6.8123 35.6322 8.76321 36.5013C10.7141 37.3704 12.8907 37.5973 14.9789 37.1492C15.9208 38.2107 17.0786 39.0587 18.3747 39.6366C19.6709 40.2144 21.0755 40.5087 22.4946 40.4998C24.6307 40.5054 26.7133 39.8321 28.4418 38.5772C30.1704 37.3223 31.4556 35.5506 32.1119 33.5179C33.5027 33.2332 34.8167 32.6547 35.9659 31.821C37.115 30.9874 38.0728 29.9178 38.7752 28.684C39.8458 26.8371 40.3023 24.6979 40.0789 22.5748C39.8556 20.4517 38.9639 18.4544 37.5324 16.8707ZM22.4978 37.8849C20.7443 37.8874 19.0459 37.2733 17.6994 36.1501C17.7601 36.117 17.8666 36.0586 17.936 36.0161L25.9004 31.4156C26.1003 31.3019 26.2663 31.137 26.3813 30.9378C26.4964 30.7386 26.5563 30.5124 26.5549 30.2825V19.0542L29.9213 20.998C29.9389 21.0068 29.9541 21.0198 29.9656 21.0359C29.977 21.052 29.9842 21.0707 29.9867 21.0902V30.3889C29.9842 32.375 29.1946 34.2791 27.7909 35.6841C26.3872 37.0892 24.4838 37.8806 22.4978 37.8849ZM6.39227 31.0064C5.51397 29.4888 5.19742 27.7107 5.49804 25.9832C5.55718 26.0187 5.66048 26.0818 5.73461 26.1244L13.699 30.7248C13.8975 30.8408 14.1233 30.902 14.3532 30.902C14.583 30.902 14.8088 30.8408 15.0073 30.7248L24.731 25.1103V28.9979C24.7321 29.0177 24.7283 29.0376 24.7199 29.0556C24.7115 29.0736 24.6988 29.0893 24.6829 29.1012L16.6317 33.7497C14.9096 34.7416 12.8643 35.0097 10.9447 34.4954C9.02506 33.9811 7.38785 32.7263 6.39227 31.0064ZM4.29707 13.6194C5.17156 12.0998 6.55279 10.9364 8.19885 10.3327C8.19885 10.4013 8.19491 10.5228 8.19491 10.6071V19.808C8.19351 20.0378 8.25334 20.2638 8.36823 20.4629C8.48312 20.6619 8.64893 20.8267 8.84863 20.9404L18.5723 26.5542L15.206 28.4979C15.1894 28.5089 15.1703 28.5155 15.1505 28.5173C15.1307 28.5191 15.1107 28.516 15.0924 28.5082L7.04046 23.8557C5.32135 22.8601 4.06716 21.2235 3.55289 19.3046C3.03862 17.3858 3.30624 15.3413 4.29707 13.6194ZM31.955 20.0556L22.2312 14.4411L25.5976 12.4981C25.6142 12.4872 25.6333 12.4805 25.6531 12.4787C25.6729 12.4769 25.6928 12.4801 25.7111 12.4879L33.7631 17.1364C34.9967 17.849 36.0017 18.8982 36.6606 20.1613C37.3194 21.4244 37.6047 22.849 37.4832 24.2684C37.3617 25.6878 36.8382 27.0432 35.9743 28.1759C35.1103 29.3086 33.9415 30.1717 32.6047 30.6641C32.6047 30.5947 32.6047 30.4733 32.6047 30.3889V21.188C32.6066 20.9586 32.5474 20.7328 32.4332 20.5338C32.319 20.3348 32.154 20.1698 31.955 20.0556ZM35.3055 15.0128C35.2464 14.9765 35.1431 14.9142 35.069 14.8717L27.1045 10.2712C26.906 10.1554 26.6803 10.0943 26.4504 10.0943C26.2206 10.0943 25.9948 10.1554 25.7963 10.2712L16.0726 15.8858V11.9982C16.0715 11.9783 16.0753 11.9585 16.0837 11.9405C16.0921 11.9225 16.1048 11.9068 16.1207 11.8949L24.1719 7.25025C25.4053 6.53903 26.8158 6.19376 28.2383 6.25482C29.6608 6.31589 31.0364 6.78077 32.2044 7.59508C33.3723 8.40939 34.2842 9.53945 34.8334 10.8531C35.3826 12.1667 35.5464 13.6095 35.3055 15.0128ZM14.2424 21.9419L10.8752 19.9981C10.8576 19.9893 10.8423 19.9763 10.8309 19.9602C10.8195 19.9441 10.8122 19.9254 10.8098 19.9058V10.6071C10.8107 9.18295 11.2173 7.78848 11.9819 6.58696C12.7466 5.38544 13.8377 4.42659 15.1275 3.82264C16.4173 3.21869 17.8524 2.99464 19.2649 3.1767C20.6775 3.35876 22.0089 3.93941 23.1034 4.85067C23.0427 4.88379 22.937 4.94215 22.8668 4.98473L14.9024 9.58517C14.7025 9.69878 14.5366 9.86356 14.4215 10.0626C14.3065 10.2616 14.2466 10.4877 14.2479 10.7175L14.2424 21.9419ZM16.071 17.9991L20.4018 15.4978L24.7325 17.9975V22.9985L20.4018 25.4983L16.071 22.9985V17.9991Z" fill="currentColor"/></svg>ChatGPT
+            </div>
+            <div class="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-white/60 border border-white/60 backdrop-blur-sm text-slate-600 font-semibold cursor-default text-xs md:text-sm shadow-sm hover:bg-white hover:shadow-md transition-all">
+                <!-- Claude Logo (Anthropic Style) -->
+          <svg class="w-4 h-4 text-[#da7756]" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round">
+                    <!-- 7 lines intersecting to form the star -->
+                    <line x1="50" y1="15" x2="50" y2="85" />
+                    <line x1="26.7" y1="23.8" x2="73.3" y2="76.2" />
+                    <line x1="15" y1="50" x2="85" y2="50" />
+                    <line x1="26.7" y1="76.2" x2="73.3" y2="23.8" />
+                    <line x1="68.8" y1="18.5" x2="31.2" y2="81.5" />
+                    <line x1="83.5" y1="38.5" x2="16.5" y2="61.5" />
+                    <line x1="83.5" y1="61.5" x2="16.5" y2="38.5" />
+                </svg>Claude
+            </div>
+            <div class="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-white/60 border border-white/60 backdrop-blur-sm text-slate-600 font-semibold cursor-default text-xs md:text-sm shadow-sm hover:bg-white hover:shadow-md transition-all">
+                <svg class="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="currentColor"><path d="M11.96 0l1.23 4.24c.73 2.52 2.73 4.54 5.25 5.27L22.68 10.74l-4.24 1.23c-2.52.73-4.52 2.73-5.25 5.25L11.96 21.48l-1.23-4.26c-.73-2.52-2.73-4.52-5.25-5.25L1.24 10.74l4.24-1.23c2.52-.73 4.52-2.75 5.25-5.27L11.96 0z"/></svg>Gemini
+            </div>
+            <div class="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-white/60 border border-white/60 backdrop-blur-sm text-slate-600 font-semibold cursor-default text-xs md:text-sm shadow-sm hover:bg-white hover:shadow-md transition-all">
+                <svg class="w-4 h-4 text-black" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Grok
+            </div>
+            <div class="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-white/60 border border-white/60 backdrop-blur-sm text-slate-600 font-semibold cursor-default text-xs md:text-sm shadow-sm hover:bg-white hover:shadow-md transition-all">
+                <svg class="w-4 h-4 text-purple-600" viewBox="0 0 24 24" fill="currentColor"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>banana pro
+            </div>
+        </div>
     </div>
 
+    <!-- 主要内容区 (减小间距) -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 w-full flex flex-col justify-center"> <!-- py-4 改为 py-2 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch h-full"> <!-- gap-6 改为 gap-5 -->
+            
+            <!-- 
+                核心修改点：
+                order-2 lg:order-1
+                手机端（默认）显示顺序为第2，电脑端（lg）显示顺序为第1（左边）
+            -->
+            <div class="lg:col-span-8 flex flex-col h-full order-2 lg:order-1">
+                <div class="glass-card left-panel-glass rounded-2xl p-6 h-full flex flex-col justify-center relative overflow-hidden">
+                    
+                    <!-- 装饰光晕 -->
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-100/40 blur-[80px] rounded-full pointer-events-none"></div>
+
+                    <h2 class="relative text-xl md:text-2xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        全国顶尖AI集成，模型均无次数限制（除天卡外），点系统登录入口使用
+                    </h2>
+
+                    <!-- 公告栏 -->
+                    <div class="relative mb-6 bg-amber-50/70 border border-amber-100/50 rounded-xl p-3 flex items-start gap-3 backdrop-blur-sm">
+                        <span class="bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-sm shadow-orange-500/20 text-xs px-2.5 py-0.5 rounded-md font-bold mt-1 flex-shrink-0">公告</span>
+                        <div class="text-xs md:text-sm text-slate-700">
+                            <p class="font-bold mb-0.5 text-slate-800">最新公告：</p>
+                            <p class="leading-relaxed opacity-90">GPT-image-2 已上线，直连官网。新用户注册账号后直接点击右侧“Chatshare激活码购买”，激活码可叠加，本站亦可代充官网GPT plus/pro等账号！</p>
+                        </div>
+                    </div>
+                    
+                    <div class="relative space-y-6 pl-1">
+                        <div class="flex items-start gap-4 group">
+                            <div class="w-8 h-8 rounded-full bg-green-100/50 flex items-center justify-center text-green-600 group-hover:bg-green-500 group-hover:text-white transition-colors duration-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-base md:text-lg">全能模型矩阵</h3>
+                                <p class="text-slate-500 mt-0.5 leading-relaxed text-xs md:text-sm">一站集成 ChatGPT, Claude, Gemini, Grok,  Banana 2 等多种模型，一键切换。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4 group">
+                            <div class="w-8 h-8 rounded-full bg-green-100/50 flex items-center justify-center text-green-600 group-hover:bg-green-500 group-hover:text-white transition-colors duration-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-base md:text-lg">国内网络直连</h3>
+                                <p class="text-slate-500 mt-0.5 leading-relaxed text-xs md:text-sm">无需翻墙，电脑、手机、平板全端适配，国内网络直接访问。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4 group">
+                            <div class="w-8 h-8 rounded-full bg-green-100/50 flex items-center justify-center text-green-600 group-hover:bg-green-500 group-hover:text-white transition-colors duration-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-base md:text-lg">单人独享不拼车</h3>
+                                <p class="text-slate-500 mt-0.5 leading-relaxed text-xs md:text-sm">真正做到账号单人独享，聊天记录物理隔离，无次数限制，拒绝隐私泄露。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 
+                核心修改点：
+                order-1 lg:order-2
+                手机端（默认）显示顺序为第1（优先显示），电脑端（lg）显示顺序为第2（右边）
+            -->
+            <div class="lg:col-span-4 flex flex-col gap-3 h-full order-1 lg:order-2">
+                
+                <!-- 1. 系统登录入口 -->
+                <a href="https://node1.chatshare.biz/" target="_blank" 
+                   class="flex-1 glass-card glass-card-hover rounded-2xl p-5 flex items-center justify-between group transition-all" 
+                   style="background: linear-gradient(135deg, rgba(219,234,254,0.9) 0%, rgba(191,219,254,0.7) 100%); border: 2px solid rgba(147,197,253,0.5);">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <span class="bg-indigo-100 text-indigo-600 text-xs px-2 py-0.5 rounded font-bold">Use</span>
+                            <h3 class="font-bold text-indigo-900 text-lg md:text-xl group-hover:text-indigo-700 transition-colors">系统登录入口</h3>
+                        </div>
+                        <p class="text-xs md:text-sm text-indigo-700/80">单人单号，注册后购买激活码激活</p>
+                    </div>
+                    <div class="w-12 h-12 md:w-14 md:h-14 bg-white/80 rounded-full flex items-center justify-center text-indigo-500 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-sm flex-shrink-0 ml-3">
+                        <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                    </div>
+                </a>
+
+                <!-- 2. Chatshare激活码购买 -->
+                <a href="https://fe.dtyuedan.cn/shop/chatshare.top" target="_blank" 
+                   class="flex-1 glass-card glass-card-hover rounded-2xl p-5 flex items-center justify-between group transition-all" 
+                   style="background: linear-gradient(135deg, rgba(219,234,254,0.9) 0%, rgba(191,219,254,0.7) 100%); border: 2px solid rgba(147,197,253,0.5);">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <span class="bg-gradient-to-r from-red-500 to-rose-500 text-white shadow-sm shadow-rose-500/30 text-xs px-2 py-0.5 rounded font-bold">Hot</span>
+                            <h3 class="font-bold text-indigo-900 text-lg md:text-xl">Chatshare激活码购买</h3>
+                        </div>
+                        <p class="text-xs md:text-sm text-indigo-700/80">自动发货，解锁全部AI大模型</p>
+                    </div>
+                    <div class="w-12 h-12 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center text-indigo-600 shadow-md group-hover:scale-110 group-hover:rotate-3 transition-all flex-shrink-0 ml-3">
+                        <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </div>
+                </a>
+                
+                <!-- 3. 系统使用操作 -->
+                <a href="https://my.feishu.cn/wiki/GFidwIVkriPWDukqW5Mcgd7Untr?from=from_copylink" target="_blank" 
+                   class="flex-1 glass-card glass-card-hover rounded-2xl p-5 flex items-center justify-between group transition-all" 
+                   style="background: linear-gradient(135deg, rgba(219,234,254,0.9) 0%, rgba(191,219,254,0.7) 100%); border: 2px solid rgba(147,197,253,0.5);">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <span class="bg-emerald-100 text-emerald-600 text-xs px-2 py-0.5 rounded font-bold">Help</span>
+                            <h3 class="font-bold text-indigo-900 text-lg md:text-xl group-hover:text-emerald-600 transition-colors">系统使用操作</h3>
+                        </div>
+                        <p class="text-xs md:text-sm text-indigo-700/80">不会用？点击查看教程和提示词</p>
+                    </div>
+                    <div class="w-12 h-12 md:w-14 md:h-14 bg-white/80 rounded-full flex items-center justify-center text-indigo-500 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-sm flex-shrink-0 ml-3">
+                        <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                </a>
+                
+
+
+
+                <!-- 联系模块 -->
+                <a href="javascript:void(0);" onclick="showContactToast(event)">
+                <div class="glass-card px-4 py-2.5 rounded-xl text-center shadow-sm flex-shrink-0">
+                    <div class="flex items-center justify-center gap-3">
+                        <div class="text-xs text-slate-500 font-medium">遇到问题？</div>
+                        <div class="text-sm font-bold text-indigo-600 flex items-center gap-1 cursor-pointer hover:text-indigo-800 transition">
+                             客服微信：13079809
+                        </div>
+
+                    </div>
+
+
+                </div>
+                </a>
+
+                                                    <!-- 4. API入口 -->
+                    <a href="javascript:void(0);" onclick="showRechargeToast(event)" 
+                       class="flex-1 glass-card glass-card-hover rounded-2xl p-5 flex items-center justify-between group transition-all" 
+                       style="background: linear-gradient(135deg, rgba(219,234,254,0.9) 0%, rgba(191,219,254,0.7) 100%); border: 2px solid rgba(147,197,253,0.5);">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="bg-purple-100 text-purple-600 text-xs px-2 py-0.5 rounded font-bold">官网</span>
+                                <h3 class="font-bold text-indigo-900 text-lg md:text-xl group-hover:text-purple-600 transition-colors">
+                                    GPT等官网代充（非镜像！需自备网络！）
+                                </h3>
+                            </div>
+                            <p class="text-xs md:text-sm text-indigo-700/80">Gpt官网plus/pro等的代充（非镜像！需自备网络！）</p>
+                        </div>
+                        <div class="w-12 h-12 md:w-14 md:h-14 bg-white/80 rounded-full flex items-center justify-center text-indigo-500 group-hover:bg-purple-600 group-hover:text-white transition-all shadow-sm flex-shrink-0 ml-3">
+                            <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5-6h3m-9 8h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                    </a>
+
+
+
+            </div>
+        </div>
+    </main>
+
+
+    <!-- 提示条 -->
+    <div id="toast-message" class="fixed left-1/2 bottom-6 z-[9999] hidden -translate-x-1/2 rounded-xl bg-slate-900/90 px-5 py-3 text-sm font-semibold text-white shadow-2xl backdrop-blur-md">
+        请加客服微信：13079809&nbsp;&nbsp;备注：需要官网代充！
+    </div>
+
+    <footer class="mt-auto py-4 relative z-10 border-t border-white/40 bg-white/30 backdrop-blur-sm"> <!-- py-8 -> py-4 -->
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-slate-500 text-xs md:text-sm font-medium">© 2025 ChatShare AI聚合站. All rights reserved.</p>
+        </div>
+    </footer>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const startBtn = document.getElementById('startBtn');
-            const spinner = document.getElementById('spinner');
-            const resultContainer = document.getElementById('result');
-            const statusText = document.getElementById('statusText');
-            const testedCount = document.getElementById('testedCount');
-            const redirectMessage = document.getElementById('redirectMessage');
-            const progressContainer = document.getElementById('progressContainer');
-            const progressBar = document.getElementById('progressBar');
-            
-            // 节点配置
-            const nodes = [
-                { 
-                    name: "电信高速节点1", 
-                    speedtest: 'https://node1.chatshare.biz/speedtest', 
-                    redirect: 'https://node1.chatshare.biz/home' 
-                },
-                { 
-                    name: "电信高速节点2", 
-                    speedtest: 'https://node2.chatshare.biz/speedtest', 
-                    redirect: 'https://node2.chatshare.biz/home' 
-                },
-                { 
-                    name: "香港高速节点3", 
-                    speedtest: 'https://node3.chatshare.biz/speedtest', 
-                    redirect: 'https://node3.chatshare.biz/home' 
-                },
-                { 
-                    name: "日本高速节点5", 
-                    speedtest: 'https://node5.chatshare.biz/speedtest', 
-                    redirect: 'https://node5.chatshare.biz/home' 
-                },
-                { 
-                    name: "美国高防节点6", 
-                    speedtest: 'https://node6.chatshare.biz/speedtest', 
-                    redirect: 'https://node6.chatshare.biz/home' 
-                }
-            ];
-            
-            // 测试节点速度
-            async function testSpeed(url, index) {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 2000);
-                
-                const startTime = Date.now();
-                try {
-                    await fetch(url + '?cache=' + new Date().getTime(), { 
-                        method: 'GET', 
-                        signal: controller.signal,
-                        cache: 'no-store'
-                    });
-                } catch (error) {
-                    console.error(`Request to ${url} failed:`, error);
-                    return "Timeout";
-                } finally {
-                    clearTimeout(timeoutId);
-                }
-                
-                const endTime = Date.now();
-                return ((endTime - startTime) / 1000).toFixed(2);
-            }
-            
-            // 处理测试请求
-            async function handleRequest() {
-                startBtn.disabled = true;
-                startBtn.textContent = '测试中...';
-                spinner.style.display = 'block';
-                resultContainer.style.display = 'block';
-                progressContainer.style.display = 'block';
-                statusText.textContent = '测试进行中';
-                
-                let results = [];
-                let completedCount = 0;
-                
-                for (let i = 0; i < nodes.length; i++) {
-                    const node = nodes[i];
-                    const speed = await testSpeed(node.speedtest, i);
-                    
-                    // 更新UI
-                    const resultElement = document.getElementById(`result${i + 1}`);
-                    resultElement.textContent = speed === "Timeout" ? "超时" : speed + " 秒";
-                    
-                    if (speed === "Timeout") {
-                        resultElement.classList.add('timeout');
-                    } else {
-                        results.push({ speed: parseFloat(speed), node });
-                    }
-                    
-                    // 更新进度
-                    completedCount++;
-                    testedCount.textContent = completedCount;
-                    progressBar.style.width = `${(completedCount / nodes.length) * 100}%`;
-                }
-                
-                // 分析结果
-                if (results.length === 0) {
-                    statusText.textContent = '所有节点均超时';
-                    startBtn.disabled = false;
-                    startBtn.textContent = '重新测试';
-                    spinner.style.display = 'none';
-                    alert('所有节点均超时，请稍后重试或联系管理员。');
-                    return;
-                }
-                
-                // 排序结果（从快到慢）
-                results.sort((a, b) => a.speed - b.speed);
-                
-                // 标记最快节点
-                const fastestNodeIndex = nodes.findIndex(n => n.name === results[0].node.name);
-                if (fastestNodeIndex !== -1) {
-                    const fastestElement = document.getElementById(`result${fastestNodeIndex + 1}`);
-                    fastestElement.parentElement.classList.add('best-node');
-                }
-                
-                // 显示最快节点信息
-                statusText.innerHTML = `最快节点: <strong>${results[0].node.name}</strong> (${results[0].speed} 秒)`;
-                
-                // 随机选择前3个节点中的一个
-                const topThreeNodes = results.slice(0, 3).map(result => result.node);
-                const randomNode = topThreeNodes[Math.floor(Math.random() * topThreeNodes.length)];
-                
-                // 显示跳转消息
-                redirectMessage.style.display = 'block';
-                redirectMessage.innerHTML = `已选择最佳节点: <strong>${randomNode.name}</strong>，即将自动跳转...`;
-                
-                // 延迟后跳转
-                setTimeout(() => {
-                    window.location.href = randomNode.redirect;
-                }, 3000);
-            }
-            
-            // 绑定开始按钮事件
-            startBtn.addEventListener('click', handleRequest);
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
         });
+
+        let toastTimer = null;
+        function showToast(message) {
+            const toast = document.getElementById('toast-message');
+            toast.innerHTML = message;
+            toast.classList.remove('hidden');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(function() {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        function showRechargeToast(event) {
+            if (event) event.preventDefault();
+            showToast('请加客服微信：13079809&nbsp;&nbsp;备注：需要官网代充！');
+        }
+
+        function showContactToast(event) {
+            if (event) event.preventDefault();
+            showToast('请加客服微信13079809&nbsp;&nbsp;备注Chatshare!');
+        }
     </script>
+
 </body>
 </html>
