@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chatshare 系统登录及各模型使用教程</title>
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
+  <meta name="referrer" content="no-referrer" />
+  <style>
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      color: #1f2329;
+      background: #f7f8fa;
+      line-height: 1.76;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: 56px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid #e5e6eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .topbar-inner {
+      width: min(1180px, calc(100vw - 32px));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      color: #1f2329;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .brand-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #3370ff, #7b61ff);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+      flex: 0 0 auto;
+    }
+
+    .brand-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 14px;
+    }
+
+    .actions { display: flex; gap: 10px; align-items: center; flex: 0 0 auto; }
+
+    .action {
+      height: 32px;
+      padding: 0 13px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      border: 1px solid #d0d3d8;
+      color: #1f2329;
+      background: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .action.primary { background: #3370ff; border-color: #3370ff; color: #fff; }
+
+    .layout {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 24px auto 48px;
+      display: grid;
+      grid-template-columns: 230px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 80px;
+      max-height: calc(100vh - 100px);
+      overflow: auto;
+      padding: 12px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid #e5e6eb;
+    }
+
+    .sidebar-title {
+      padding: 6px 10px 10px;
+      color: #646a73;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .toc a {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 8px;
+      color: #646a73;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.45;
+      white-space: normal;
+      font-weight: 600;
+    }
+
+    .toc a:hover { background: #f2f3f5; color: #3370ff; }
+
+    .doc {
+      background: #fff;
+      border: 1px solid #e5e6eb;
+      border-radius: 14px;
+      padding: 48px min(6.5vw, 72px);
+      min-height: 80vh;
+      box-shadow: 0 8px 28px rgba(31, 35, 41, 0.04);
+    }
+
+    .doc-title {
+      margin: 0 0 28px;
+      color: #1f2329;
+      font-size: 34px;
+      line-height: 1.25;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      scroll-margin-top: 80px;
+    }
+
+    .doc-h2 {
+      margin: 34px 0 14px;
+      color: #1f2329;
+      font-size: 24px;
+      line-height: 1.42;
+      font-weight: 800;
+      scroll-margin-top: 80px;
+    }
+
+    .doc-p,
+    .doc-li {
+      margin: 10px 0;
+      color: #1f2329;
+      font-size: 16px;
+      line-height: 1.9;
+      white-space: normal;
+      word-break: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .manual-p {
+      font-weight: 700;
+    }
+
+    .doc-table-block { margin: 12px 0; }
+
+    .bold { font-weight: 800; }
+    .italic { font-style: italic; }
+    .underline { text-decoration: underline; text-underline-offset: 3px; }
+
+    .hl {
+      background: #fff67a;
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+
+    .doc-link {
+      color: #3370ff;
+      font-weight: 800;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      word-break: break-all;
+    }
+
+    .red-link {
+      color: #d93025;
+    }
+
+    .doc-link:hover { color: #245bdb; }
+
+    .doc-image {
+      margin: 18px 0 30px;
+      text-align: left;
+    }
+
+    .doc-image img {
+      display: block;
+      max-width: min(100%, 760px);
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid #e5e6eb;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(31, 35, 41, 0.06);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all .22s ease;
+      z-index: 99;
+      max-width: calc(100vw - 32px);
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: #1f2329;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 8px 28px rgba(31, 35, 41, 0.22);
+    }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 900px) {
+      .layout { display: block; width: 100%; margin: 0; }
+      .sidebar { display: none; }
+      .doc {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        padding: 28px 18px 48px;
+      }
+      .doc-title { font-size: 28px; }
+      .doc-h2 { font-size: 21px; }
+      .doc-image img { max-width: 100%; }
+      .actions .hide-sm { display: none; }
+      .topbar-inner { width: calc(100vw - 24px); }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top">
+        <span class="brand-icon">C</span>
+        <span class="brand-text">Chatshare 系统登录及各模型使用教程</span>
+      </a>
+      <div class="actions">
+        <a class="action primary hide-sm" href="https://node2.chatshare.biz/home" target="_blank">系统入口</a>
+        <a class="action hide-sm" href="https://fe.dtyuedan.cn/shop/chatshare.top" target="_blank">购买激活码</a>
+        <button class="action" onclick="showToast('请加客服微信13079809  备注Chatshare!')">客服</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-title">重点目录</div>
+      <nav class="toc">
+        
+<a href="#top">01 Chatshare系统简介</a>
+<a href="#toc-login">02 系统地址与登录</a>
+<a href="#toc-activate">03 注册账号与激活码</a>
+<a href="#toc-models">04 登录入口与模型说明</a>
+<a href="#toc-image2">05 GPT-image-2 出图总览</a>
+<a href="#toc-method1">06 方法一：自选 plus 系统</a>
+<a href="#toc-method2">07 方法二：新版 plus 系统</a>
+<a href="#toc-banana">08 nano-banana 2 出图</a>
+<a href="#toc-video">09 出视频模型</a>
+
+      </nav>
+    </aside>
+
+    <article class="doc">
+      <h1 id="top" class="doc-title"><span class="bold">Chatshare系统登录及各模型使用教程 </span></h1>
+<p class="doc-p"><span class="bold" style="color:#d83931;background-color:#fff67a;padding:0 2px;border-radius:2px">本系统</span><span class="bold" style="color:#d83931;background-color:#fff67a;padding:0 2px;border-radius:2px">集成ChatGPT, claude, grok，gemini, banana等多种模型，一键切换</span></p>
+<p class="doc-p"><span class="bold" style="color:#245bdb;background-color:#fff67a;padding:0 2px;border-radius:2px">国内网络直接访问，电脑、手机、平板均可用（为防止共享使用，同时间只有一设备使用）</span></p>
+<p class="doc-p"><span class="bold" style="color:#d83931;background-color:#fff67a;padding:0 2px;border-radius:2px">真正做到了单人独享，模型通用，无次数限制，聊天记录隔离，拒绝拼车！</span></p>
+<p class="doc-p"><span class="bold" style="color:#d83931;background-color:#fff67a;padding:0 2px;border-radius:2px">GPT-image-2使用教程请下滑至底部↓↓↓</span></p>
+<p id="toc-login" class="doc-p manual-p"><span class="bold">一、系统地址：</span>
+<a class="doc-link" href="https://www.chatshare.online" target="_blank">https://www.chatshare.online</a>
+<span>（复制到游览器打开，推荐谷歌等，点击</span><a class="doc-link red-link" href="https://node2.chatshare.biz/home" target="_blank">系统登录入口</a><span>访问），如遇主页打不开，直接用子地址：</span>
+<a class="doc-link" href="https://node2.chatshare.biz/home" target="_blank">https://node2.chatshare.biz/home</a></p>
+<p class="doc-p"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">（不建议用国产浏览器，可能会出现各种奇怪问题！建议谷歌，edge!）</span></p>
+<figure class="doc-image"><img src="helpimage/image_01.png" loading="lazy" alt=""></figure>
+<p id="toc-activate" class="doc-p manual-p"><span class="bold">二、建议注册账号后使用激活码激活，激活码可在网页首页直接购买，也可访问：</span><a class="doc-link" href="https://fe.dtyuedan.cn/shop/chatshare.top" target="_blank">https://fe.dtyuedan.cn/shop/chatshare.top</a><span>（复制到游览器打开，下单付款后激活码自动发货)</span></p>
+<p class="doc-p"><span style="background-color:#fff67a;padding:0 2px;border-radius:2px">（体验使用才下单账号密码，其他情况不建议！）</span></p>
+<p class="doc-p"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">本站亦可代充官网gpt plus/pro账号，店铺提供质保，有需要店铺下单即可。</span></p>
+<div class="doc-table-block"><figure class="doc-image"><img src="helpimage/image_02.png" loading="lazy" alt=""></figure>
+<figure class="doc-image"><img src="helpimage/image_03.png" loading="lazy" alt=""></figure></div>
+<h2 class="doc-h2" id="toc-models"><span class="bold">三、下面是文字+图片登录教程</span></h2>
+<figure class="doc-image"><img src="helpimage/image_04.png" loading="lazy" alt=""></figure>
+<p class="doc-p"><span class="bold" style="color:#d83931;background-color:#fff67a;padding:0 2px;border-radius:2px">自选plus入口：</span><span class="bold">直连GPT官网，右侧手动选择节点登录，若次数用完，点击换号选择其他节点即可。</span></p>
+<p class="doc-p"><span class="bold" style="color:#d83931;background-color:#fff67a;padding:0 2px;border-radius:2px">新版plus入口：</span><span class="bold">聚合GPT、Gemini、Claude、Grok、banana等诸多模型，左上角切换模型即可使用，无需来回换号。</span></p>
+<p class="doc-p"><span class="bold" style="color:#d83931;background-color:#fff67a;padding:0 2px;border-radius:2px">gemini专区：</span><span class="bold">gemini官网镜像版（含banana 2 模型）天卡以上可用，官网近期不稳定，画图可能会报错。</span></p>
+<p class="doc-p"><span class="bold" style="color:#d83931;background-color:#fff67a;padding:0 2px;border-radius:2px">grok专区：</span><span class="bold">grok官网镜像版天卡以上可用，可出图、出视频。</span></p>
+<p class="doc-p"><span class="bold" style="color:#d83931;background-color:#fff67a;padding:0 2px;border-radius:2px">提示：</span><span class="bold">本系统不保存聊天记录，所有聊天记录均保存在底层官网账号上，若对应底层账号被封号，则记录会跟着丢失，故重要聊天记录记得导出到本地！！！</span></p>
+<figure class="doc-image"><img src="helpimage/image_05.png" loading="lazy" alt=""></figure>
+<figure class="doc-image"><img src="helpimage/image_06.png" loading="lazy" alt=""></figure>
+<h2 class="doc-h2" id="toc-image2"><span class="bold">四、GPT-image-2出图的两种方法（自选plus系统：需手动换节点，新版plus系统：无需切换节点）</span></h2>
+<h2 class="doc-h2" id="toc-method1"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">方法一：自选plus系统</span></h2>
+<p class="doc-li"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">1、点击右侧任意节点进入</span></p>
+<figure class="doc-image"><img src="helpimage/image_07.png" loading="lazy" alt=""></figure>
+<figure class="doc-image"><img src="helpimage/image_08.png" loading="lazy" alt=""></figure>
+<p class="doc-li"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">2、由于使用火爆，部分节点可能没次数（检测方法：点击加号，看看创建图片按钮是否为灰色），如果灰色，代表没次数，点击粉色换号按钮手动换一个节点（</span><span class="bold" style="color:#d83931;background-color:#fff67a;padding:0 2px;border-radius:2px">可以选择中间靠后一些的，前面次数容易用完，但注意不要选到free节点</span><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">）</span></p>
+<figure class="doc-image"><img src="helpimage/image_09.png" loading="lazy" alt=""></figure>
+<p class="doc-li"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">3、不需要选什么东西，直接对话框输入你的提示词即可出图。如果有图片上传需要，可以直接拖入，或者点击左侧加号进行上传。</span></p>
+<figure class="doc-image"><img src="helpimage/image_10.png" loading="lazy" alt=""></figure>
+<figure class="doc-image"><img src="helpimage/image_11.png" loading="lazy" alt=""></figure>
+<figure class="doc-image"><img src="helpimage/image_12.png" loading="lazy" alt=""></figure>
+<h2 class="doc-h2" id="toc-method2"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">方法二：新版plus系统（无需切换节点）</span></h2>
+<p class="doc-li"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">1、点击新版plus系统进入</span></p>
+<figure class="doc-image"><img src="helpimage/image_13.png" loading="lazy" alt=""></figure>
+<p class="doc-li"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">2、左上角切换模型（选择OpenAl最新画图模型-image2）</span></p>
+<p class="doc-p"><span class="bold" style="color:#d83931;background-color:#fff67a;padding:0 2px;border-radius:2px">不能连续对话，需要连续对话去方法一：自选系统。</span></p>
+<figure class="doc-image"><img src="helpimage/image_14.png" loading="lazy" alt=""></figure>
+<h2 class="doc-h2" id="toc-banana"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">五：nano-banana 2出图教程（稳定性一般）</span></h2>
+<p class="doc-p"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">操作路径如下：</span></p>
+<p class="doc-li"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">1、首页登录，gemini专区或者新版plus入口（选择banana 2）进入</span></p>
+<p class="doc-li"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">2、上传图片，输入文字即可</span></p>
+<p class="doc-p"><span class="bold">gemini专区：</span></p>
+<figure class="doc-image"><img src="helpimage/image_15.png" loading="lazy" alt=""></figure>
+<p class="doc-p"><span style="color:#d83931;background-color:#fff67a;padding:0 2px;border-radius:2px">如果没次数了，可以点击换号选择其他节点，ultra节点次数较多。</span></p>
+<p class="doc-p"><span style="color:#d83931;background-color:#fff67a;padding:0 2px;border-radius:2px">如果遇到生图报错，基本是官网异常导致，请切换成思考模式或者快速模式出图。</span></p>
+<p class="doc-p"><span class="bold">新版plus入口：</span></p>
+<figure class="doc-image"><img src="helpimage/image_16.png" loading="lazy" alt=""></figure>
+<h2 class="doc-h2" id="toc-video"><span class="bold">六、出视频的模型（gemini专区：veo3，grok专区）</span></h2>
+<p class="doc-p"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">操作路径如下：</span></p>
+<p class="doc-li"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">1、首页登录，左下角服务专区（</span><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">gemini专区：veo3，grok专区</span><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">）进入</span></p>
+<p class="doc-li"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">2、若遇到提示违反相关政策，请更换提示词或图片</span></p>
+<p class="doc-p"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">大部分问题看教程、网站公告基本都可自行解决！</span></p>
+<p class="doc-p"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">后台也有技术人员全天候盯着，一般不会出现较长时间的崩溃！</span></p>
+<p class="doc-p"><span class="bold" style="background-color:#fff67a;padding:0 2px;border-radius:2px">有其他问题可加QQ：13079809  （请备注Chatshare）   事情较多，回复不一定及时，请谅解！</span></p>
+    </article>
+  </div>
+
+  <div id="toast" class="toast">请加客服微信13079809  备注Chatshare!</div>
+
+  <script>
+    let toastTimer = null;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+    }
+  </script>
+</body>
+</html>
